@@ -9,7 +9,7 @@ const int nUmb = 4095;
 const float vcc =3.3;
 const float vEsc = vcc/nUmb ;
 const float minUmbral =0.03;
-const float correccion =0.000;
+const float correccion =0.01;
 const int seg = 3;
 
 ////******** FIN ACS712////////
@@ -34,6 +34,8 @@ void task_ADC( void * parameter ){
 
 void setup() {
   Serial.begin(115200);
+  analogReadResolution(12);
+//  analogSetAttenuation(11);
   xTaskCreate( task_ADC,"ADC",10000,NULL,1,NULL);
 }
 
@@ -48,7 +50,7 @@ float TrueRMSMuestras(){
  int promedio = 0;
  float promedioRead = 0;
  int sumatoria = 0;
- const int n = 2000;
+ const int n = 200;
  const int m = 2000;
  
  
@@ -57,7 +59,7 @@ float TrueRMSMuestras(){
  int diferencia = 0;
  
  for(int i=0;i<n;i++){
-    delay(.1);
+    delay(1);
     sumatoria = sumatoria + analogRead(analogPin);
   } 
  
@@ -69,14 +71,15 @@ float TrueRMSMuestras(){
  Serial.print("Vo : "); Serial.println(Vo,3);
  uint32_t start_time = millis();
  while(Count < m){     
-     delay(.1);
+     delay(.25);
      Count++;
      readValue =  analogRead(analogPin);
      diferencia = abs(readValue - promedio);
      if(diferencia<10){
        diferencia = 0;
      }
-     conv=diferencia*vEsc;// 2.25;//2793= 2.25v 
+    // conv=diferencia*vEsc;// 2.25;//2793= 2.25v 
+     conv=(readValue - promedio)*vEsc;// 2.25;//2793= 2.25v 
      Acumulador=Acumulador+sq(conv);  
      }
    suma=Acumulador/Count;

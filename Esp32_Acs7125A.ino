@@ -1,4 +1,4 @@
-
+int measurement = 0;
 const int analogPin = 35;  // Analog input pin 
 float mVperAmp = 0.185;//185.0; // use 100 for 20A****66 for 30A **** 185 for 5A
 double Voltage = 0;
@@ -27,7 +27,9 @@ void task_ADC( void * parameter ){
     float Potencia = 220*AmpsRMS;
     Serial.print("AmpsRMS RMS: "); Serial.println(AmpsRMS,3);
     Serial.print("POWER RMS: ");Serial.println(Potencia,2);
-   
+    measurement = hallRead();
+    Serial.print("Hall sensor measurement: ");
+    Serial.println(measurement);
     delay(seg*1000);
   }
 }

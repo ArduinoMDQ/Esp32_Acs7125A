@@ -2,7 +2,7 @@
 int measurement = 0;
 float temp_builtin = 0 ;
 const int analogPin = 35;  // Analog input pin 
-float mVperAmp = 0.185;//185.0; // use 100 for 20A****66 for 30A **** 185 for 5A
+float mVperAmp = 0.190;//185.0; // use 100 for 20A****66 for 30A **** 185 for 5A
 double Voltage = 0;
 float VRMS = 0;
 float AmpsRMS = 0;
